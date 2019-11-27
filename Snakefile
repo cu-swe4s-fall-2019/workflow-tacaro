@@ -13,10 +13,9 @@ rule plot:
     output:
         '_'.join( ['-'.join(p) for p in TISSUE_GENE_PAIRS]) + '.png'
     shell:
-        'python hist.py ' \
+        'python box.py --tissue {tissue} --genes {gene} --output output.png' \
         + ' '.join([' '.join(p) for p in TISSUE_GENE_PAIRS]) \
         + ' {output}'
-
 
 rule tissue_samples:
     input:
@@ -28,11 +27,11 @@ rule tissue_samples:
         +  "python get_tissue_samples.py {input} $tissue $tissue\_samples.txt;"\
         + "done"
 
-#rule sample_tissue_data:
-#    output:
-#        "GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt"
-#    shell:
-#        "wget https://storage.googleapis.com/gtex_analysis_v8/annotations/GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt"
+rule sample_tissue_data:
+    output:
+        "GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt"
+    shell:
+        "wget https://storage.googleapis.com/gtex_analysis_v8/annotations/GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt"
 
 rule gene_sample_counts:
     input:
@@ -43,3 +42,9 @@ rule gene_sample_counts:
         "for gene in {GENES}; do " \
         +   "python get_gene_counts.py {input} $gene $gene\_counts.txt;" \
         + "done"
+
+rule gene_data:
+    output:
+        "GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_reads.acmg_59.gct.gz"
+    shell:
+        "wget https://github.com/swe4s/lectures/raw/master/data_integration/gtex/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_reads.acmg_59.gct.gz"
