@@ -7,7 +7,7 @@ import get_tissue_samples as tissue_samps
 matplotlib.use('Agg')
 
 
-def main():
+def main(): 
     parser = argparse.ArgumentParser()
     parser.add_argument('--tissues', type = str, help = 'Tissues?')
     parser.add_argument('--genes', type = str, help = 'Gene?')
@@ -32,10 +32,7 @@ def main():
             A = l.rstrip().split()
             sample_to_count_map[A[0]] = int(A[1])
         f.close()
-
         count = []
-
-        #generate required data from tissue
         tissue_samps.get_counts(tissue, tissue+'_samples.txt')
 
         f = open(tissue + '_samples.txt')
@@ -60,5 +57,5 @@ def main():
     plt.savefig(output, bbox_inches='tight')
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # Don't forget this!
     main()
